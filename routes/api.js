@@ -3,6 +3,7 @@ import multer from "multer";
 import * as Path from "path";
 import {imagePath} from "../constants.js";
 import * as fs from 'fs'
+import * as crypto from 'crypto'
 
 const router = express.Router();
 const upload = multer();
