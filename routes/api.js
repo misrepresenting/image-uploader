@@ -1,20 +1,16 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const multer = require('multer');
-const crypto = require('crypto');
-const imageRouter = require('./images');
-
-const parentPath = path.resolve(__dirname, '..');
-const imagePath = path.join(parentPath, '/images');
+import express from "express";
+import multer from "multer";
+import * as Path from "path";
+import {imagePath} from "../constants.js";
+import * as fs from 'fs'
 
 const router = express.Router();
 const upload = multer();
 
 router.get('/images', (req, res) => {
-	const images = fs.readdirSync('././images'); // string
+	const images = fs.readdirSync('./images');
 
-	res.send(images);
+	res.json(images);
 });
 
 /* return a url link to the image */
@@ -29,16 +25,11 @@ router.post('/post-image', upload.single('sharex'), (req, res) => {
 
 	const protocol = req.protocol;
 	const host = req.hostname;
-	const url = req.originalUrl;
 
 	const fullUrl = `${protocol}://${host}/images`;
 
-	fs.writeFileSync('././images/' + fileName, req.file.buffer);
-	imageRouter.get('/' + fileName, (req, res) => {
-		res.sendFile(path.join(imagePath + '/' + fileName));
-	});
-
+	fs.writeFileSync(Path.join(imagePath,fileName), req.file.buffer);
 	res.send(fullUrl + '/' + fileName);
 });
 
-module.exports = router;
+export {router as ApiRouter};

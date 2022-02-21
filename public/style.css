@@ -23,6 +23,7 @@ img {
 
 img:hover {
 	transform: rotate(5deg);
+	cursor:pointer;
 }
 
 p {

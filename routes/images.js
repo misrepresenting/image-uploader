@@ -1,17 +1,12 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
+import express from "express";
+import * as path from "path";
+import {imagePath} from "../constants.js";
 
 const router = express.Router();
-const images = fs.readdirSync('././images');
-const parentPath = path.resolve(__dirname, '..');
-const imagePath = path.join(parentPath, '/images');
 
-images.forEach((image) => {
-	router.get('/' + image, (req, res) => {
-		res.sendFile(path.join(imagePath + '/' + image));
-	});
-	//fs.readFileSync(path.join(imagePath + '/' + image)));
-});
 
-module.exports = router;
+router.get("/:image",(req,res)=>{
+	res.sendFile(path.join(imagePath,req.params.image.replaceAll(/(\/\\\.)+/gm,"")));
+})
+
+export {router as ImageRouter};

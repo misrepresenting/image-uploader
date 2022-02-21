@@ -1,14 +1,13 @@
-const express = require('express');
-const apiRouter = require('./routes/api');
-const imagesRouter = require('./routes/images');
-const fs = require('fs');
-const res = require('express/lib/response');
+import express from "express";
+import {ApiRouter} from "./routes/api.js";
+import {ImageRouter} from "./routes/images.js";
+import {rootPath} from "./constants.js";
 
 const app = express();
 const port = 80;
 
-app.use('/api', apiRouter);
-app.use('/images', imagesRouter);
-app.use(express.static(__dirname + '/public'));
+app.use('/api', ApiRouter);
+app.use('/images', ImageRouter);
+app.use(express.static(rootPath + '/public'));
 
-app.listen(port, (error) => console.log(error ? 'error' : 'server started'));
+app.listen(port,"0.0.0.0", (error) => console.log(error ? 'error' : 'server started'));
